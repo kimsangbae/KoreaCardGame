@@ -1,16 +1,19 @@
 package com.company;
 
-public class KoreaCardPlayer implements CardBettingable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class KoreaCardPlayer implements BetGamePlayable {
 
     private int money;
-
-    private KoreaCard koreaCard[];  //카드 필드 선언
     private int cardCount;
+    List<KoreaCard> hands;
+
 
     public KoreaCardPlayer(int money, int cardCount) {
-        this.cardCount = cardCount;
-        koreaCard = new KoreaCard[cardCount];
         this.money = money;
+        this.cardCount = cardCount;
+        hands = new ArrayList<>();
     }
 
     public int getMoney() {
@@ -22,19 +25,19 @@ public class KoreaCardPlayer implements CardBettingable {
     }
 
     @Override
-    public void SendDepositMoney(BettingBasket bettingBasket, int startMoney) {
-        bettingBasket.setMoney(startMoney);
+    public void sendDepositMoney(BasketMoney basketMoney, int startMoney) {
+        basketMoney.setMoney(startMoney);
         loseMoney(startMoney);
     }
 
     @Override
-    public void SetCards(KoreaCard koreaCard) {
-        //cardCount만큼 카드를 소유한다.
+    public void setCards(KoreaCard koreaCard) {
+        hands.add(koreaCard);
     }
 
     @Override
-    public void BetMoney(BettingBasket bettingBasket, int betMoney) {
-        bettingBasket.setMoney(betMoney);
+    public void betMoney(BasketMoney basketMoney, int betMoney) {
+        basketMoney.setMoney(betMoney);
         loseMoney(betMoney);
     }
 
@@ -44,8 +47,8 @@ public class KoreaCardPlayer implements CardBettingable {
     }
 
     @Override
-    public void gainMoney(BettingBasket bettingBasket) {
-        this.money += bettingBasket.getMoney();
+    public void gainMoney(BasketMoney basketMoney) {
+        this.money += basketMoney.getMoney();
     }
 
     @Override

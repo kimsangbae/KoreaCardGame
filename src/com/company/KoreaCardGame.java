@@ -6,14 +6,14 @@ import java.util.Scanner;
 public class KoreaCardGame implements GameMaker {
 
 	private KoreaCardPlayer koreaCardPlayer[];
-	private BettingBasket bettingBasket;
+	private BasketMoney basketMoney;
 	private KoreaCardDeck koreaCardDeck;
 
 	private int playerCount;
 	private int winnerPlayerIndex;
 
 	public KoreaCardGame() {
-		bettingBasket = new BettingBasket();
+		basketMoney = new BasketMoney();
 		koreaCardDeck = new KoreaCardDeck();
 		playerCount = 0;
 	}
@@ -32,7 +32,7 @@ public class KoreaCardGame implements GameMaker {
 	@Override
 	public void queryDepositToPlayer() {
 		for(int i = 0; i < playerCount; i++) {
-			koreaCardPlayer[i].SendDepositMoney(bettingBasket, START_DEPOSIT_MONEY);
+			koreaCardPlayer[i].sendDepositMoney(basketMoney, START_DEPOSIT_MONEY);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class KoreaCardGame implements GameMaker {
 	public void divideCardsToPlayer() {
 		for(int i = 0; i < playerCount; i++) {
 			for(int j = 0; j < PLAY_CARD_COUNT; j ++) {
-				koreaCardPlayer[i].SetCards(koreaCardDeck.getCard());
+				koreaCardPlayer[i].setCards(koreaCardDeck.getCard());
 			}
 		}
 	}
@@ -56,7 +56,7 @@ public class KoreaCardGame implements GameMaker {
 
 			switch (selection) {
 				case BETTING_GOING_ON://플레이어가 베팅할 금액을 money에 입력 받는다.
-					koreaCardPlayer[i].BetMoney(bettingBasket, money);
+					koreaCardPlayer[i].betMoney(basketMoney, money);
 
 				case DIE://플레이어가 이길 자신 없어서 베팅을 관두고 게임을 나간다.
 					koreaCardPlayer[i].dieOutGame();
@@ -66,12 +66,13 @@ public class KoreaCardGame implements GameMaker {
 
 	@Override
 	public void findWinner() {
+
 		winnerPlayerIndex = 0;
 	}
 
 	@Override
 	public void sendMoneyToWinner() {
-		koreaCardPlayer[winnerPlayerIndex].gainMoney(bettingBasket);
-		bettingBasket.initBasket();
+		koreaCardPlayer[winnerPlayerIndex].gainMoney(basketMoney);
+		basketMoney.initBasket();
 	}
 }

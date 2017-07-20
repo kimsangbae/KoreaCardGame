@@ -12,13 +12,13 @@ package com.company;
  7. 카드를 돌려준다
  */
 
-public interface CardBettingable {
+public interface BetGamePlayable {
 
-    abstract void SendDepositMoney(BettingBasket bettingBasket, int startMoney);
-    abstract void SetCards(KoreaCard koreaCard);
-    abstract void BetMoney(BettingBasket bettingBasket, int betMoney);
+    abstract void sendDepositMoney(BasketMoney basketMoney, int startMoney);
+    abstract void setCards(KoreaCard koreaCard);
+    abstract void betMoney(BasketMoney basketMoney, int betMoney);
     abstract void loseMoney(int betmoney);
-    abstract void gainMoney(BettingBasket bettingBasket);
+    abstract void gainMoney(BasketMoney basketMoney);
     abstract void dieOutGame();
     abstract void returnCard();
 }

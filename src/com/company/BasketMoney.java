@@ -1,10 +1,10 @@
 package com.company;
 
-public class BettingBasket {
+public class BasketMoney {
 
     private int money;
 
-    public BettingBasket() {
+    public BasketMoney() {
         money = 0;
     }
 
