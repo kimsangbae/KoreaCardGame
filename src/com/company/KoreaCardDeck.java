@@ -4,28 +4,39 @@ import java.util.ArrayList;
 
 public class KoreaCardDeck implements DeckControllable {
 
-    ArrayList<KoreaCard> cards ;
+    ArrayList<KoreaCard> cards;
 
-    public KoreaCardDeck() {
-        cards = new ArrayList<>(20);
+
+    public KoreaCardDeck(int totalCardCount) {
+        cards = new ArrayList<>(totalCardCount);
+        initCards(totalCardCount);
     }
 
+    @Override
+    public void initCards(int totalCardCount) {
+        for(int i = 0; i < totalCardCount/2; i++) {
+            for(int j = 0; j < 2; j++) {
+                cards.add(new KoreaCard(FIRST_KOREA_CARD, String.valueOf(i)));
+                cards.add(new KoreaCard(SECOND_KOREA_CARD, String.valueOf(i)));
+            }
+        }
+    }
 
     @Override
-    public void shuffle() {
-        //카드를 섞는다.
+    public int shuffleCards() {
+        double randomeValue = Math.random();
+        int intValue = (int)(randomeValue*20) + 1;
+        return intValue;
     }
 
     @Override
     public void setCard() {
-        //카드를 회수한다.
-        //카드개수 +1
+
     }
 
     @Override
     public KoreaCard getCard() {
-        //카드를 플레이어에게 준다.
-        //카드개수 -1
-        return cards;
+        int intValue = shuffleCards();
+        return cards.get(intValue);
     }
 }

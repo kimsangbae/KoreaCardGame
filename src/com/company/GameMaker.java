@@ -12,13 +12,14 @@ package com.company;
  */
 
 public interface GameMaker {
+    static final int TOTAL_CARD_COUNT = 20;
     static final int START_DEPOSIT_MONEY = 100;
     static final int PLAY_CARD_COUNT = 2;
-    static final int BETTING_GOING_ON = 1;
-    static final int DIE = 2;
+    static final String BETTING_GOING_ON = "Y";
+    static final String DIE = "N";
 
 
-    abstract int standByPlayer();
+    abstract boolean standByPlayer();
     abstract void queryDepositToPlayer();
     abstract void divideCardsToPlayer();
     abstract void playBetting();

@@ -14,7 +14,8 @@ public interface DeckControllable {
     static final String FIRST_KOREA_CARD = "main";
     static final String SECOND_KOREA_CARD = "sub";
 
-    abstract void shuffle();
+    abstract void initCards(int totalCardCount);
+    abstract int shuffleCards();
     abstract void setCard();
     abstract KoreaCard getCard();
 }

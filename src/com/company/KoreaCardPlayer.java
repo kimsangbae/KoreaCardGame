@@ -13,7 +13,7 @@ public class KoreaCardPlayer implements BetGamePlayable {
     public KoreaCardPlayer(int money, int cardCount) {
         this.money = money;
         this.cardCount = cardCount;
-        hands = new ArrayList<>();
+        hands = new ArrayList<>(cardCount);
     }
 
     public int getMoney() {
@@ -47,9 +47,7 @@ public class KoreaCardPlayer implements BetGamePlayable {
     }
 
     @Override
-    public void gainMoney(BasketMoney basketMoney) {
-        this.money += basketMoney.getMoney();
-    }
+    public void gainMoney(BasketMoney basketMoney) { this.money += basketMoney.getMoney(); }
 
     @Override
     public void dieOutGame() {

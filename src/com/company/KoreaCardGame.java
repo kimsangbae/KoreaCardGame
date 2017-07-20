@@ -1,11 +1,11 @@
 package com.company;
 
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class KoreaCardGame implements GameMaker {
 
-	private KoreaCardPlayer koreaCardPlayer[];
+	private KoreaCardPlayer[] players;
 	private BasketMoney basketMoney;
 	private KoreaCardDeck koreaCardDeck;
 
@@ -14,7 +14,7 @@ public class KoreaCardGame implements GameMaker {
 
 	public KoreaCardGame() {
 		basketMoney = new BasketMoney();
-		koreaCardDeck = new KoreaCardDeck();
+		koreaCardDeck = new KoreaCardDeck(TOTAL_CARD_COUNT);
 		playerCount = 0;
 	}
 
@@ -23,16 +23,33 @@ public class KoreaCardGame implements GameMaker {
 	}
 
 	@Override
-	public int standByPlayer() {
+	public boolean standByPlayer() {
+		int money = 0;
 
-		playerCount++;
-		return playerCount;
+		System.out.println("선수는 몇 명 입니까?");
+		Scanner sc = new Scanner(System.in);
+		playerCount = sc.nextInt();
+
+		if(playerCount > 10)
+			return false;
+
+		for(int i = 0; i < playerCount; i++) {
+			System.out.println(i + "번째 선수는 얼마를 가지고 있습니까?");
+			sc = new Scanner(System.in);
+			money = sc.nextInt();
+			players[i] = new KoreaCardPlayer(money, PLAY_CARD_COUNT);
+		}
+
+		if(playerCount >= 2)
+			return true;
+		else
+			return false;
 	}
 
 	@Override
 	public void queryDepositToPlayer() {
 		for(int i = 0; i < playerCount; i++) {
-			koreaCardPlayer[i].sendDepositMoney(basketMoney, START_DEPOSIT_MONEY);
+			players[i].sendDepositMoney(basketMoney, START_DEPOSIT_MONEY);
 		}
 	}
 
@@ -40,7 +57,7 @@ public class KoreaCardGame implements GameMaker {
 	public void divideCardsToPlayer() {
 		for(int i = 0; i < playerCount; i++) {
 			for(int j = 0; j < PLAY_CARD_COUNT; j ++) {
-				koreaCardPlayer[i].setCards(koreaCardDeck.getCard());
+				players[i].setCards(koreaCardDeck.getCard());
 			}
 		}
 	}
@@ -49,17 +66,25 @@ public class KoreaCardGame implements GameMaker {
 	public void playBetting() {
 		int money = 0;
 
-		for(int i = 0; i < playerCount; i++) {
+		while(playerCount != 1) {
+			for (int i = 0; i < playerCount; i++) {
 
-			Scanner sc = new Scanner(System.in);
-			int selection = sc.nextInt();
+				System.out.println("베팅을 하시겠습니까? <Y / N>");
+				Scanner sc = new Scanner(System.in);
+				String selection = sc.toString();
 
-			switch (selection) {
-				case BETTING_GOING_ON://플레이어가 베팅할 금액을 money에 입력 받는다.
-					koreaCardPlayer[i].betMoney(basketMoney, money);
+				switch (selection) {
+					case BETTING_GOING_ON: //플레이어가 이길 자신이 있어서 베팅을 한다.
+						players[i].betMoney(basketMoney, money);
+						break;
 
-				case DIE://플레이어가 이길 자신 없어서 베팅을 관두고 게임을 나간다.
-					koreaCardPlayer[i].dieOutGame();
+					case DIE://플레이어가 이길 자신 없어서 베팅을 관두고 게임을 나간다.
+						players[i].dieOutGame();
+						break;
+
+					default:
+						break;
+				}
 			}
 		}
 	}
@@ -72,7 +97,7 @@ public class KoreaCardGame implements GameMaker {
 
 	@Override
 	public void sendMoneyToWinner() {
-		koreaCardPlayer[winnerPlayerIndex].gainMoney(basketMoney);
+		players[winnerPlayerIndex].gainMoney(basketMoney);
 		basketMoney.initBasket();
 	}
 }
