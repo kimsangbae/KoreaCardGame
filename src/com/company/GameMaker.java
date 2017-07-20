@@ -1,4 +1,4 @@
-package scalar;
+package com.company;
 
 /**
  *  게임규칙
