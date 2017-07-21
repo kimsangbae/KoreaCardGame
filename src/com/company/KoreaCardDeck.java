@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class KoreaCardDeck implements DeckControllable {
 
-    ArrayList<KoreaCard> cards;
+    List<KoreaCard> cards;
 
 
     public KoreaCardDeck(int totalCardCount) {
